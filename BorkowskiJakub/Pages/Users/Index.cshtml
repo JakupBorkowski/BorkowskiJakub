@@ -1,0 +1,99 @@
+﻿@page
+@model BorkowskiJakub.Pages.Users.IndexModel
+@using Newtonsoft.Json;
+@using System.Text;
+@using System.Web;
+@{
+	
+}
+
+<br>
+<h2>Lista użytkowników</h2>
+
+<a class='btn btn-primary btn-sm' href='/Users/Create'>Dodaj użytkownika</a>
+<!--<a class='btn btn-primary btn-sm' href='/Users/Download'>Pobierz raport</a>-->
+<!--<a class='btn btn-primary btn-sm' onclick="downloadFile()">Pobierz raport</a>-->
+<a class='btn btn-primary btn-sm' onclick="downloadFile()">Pobierz raport</a>
+<script>
+    // Function to download data to a CSV file
+    function downloadFile() {
+        //console.log('@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.userList)))')
+        var userArray = '@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.userList)))'
+        userArray = JSON.parse(userArray.replace(/&quot;/g, '"'));
+        console.log(userArray)
+        // Add header
+
+       
+        let csvData = "Imie, Nazwisko, Data urodzenia, Płeć, Tytuł, Wiek \n";
+        
+        // Add data
+        userArray.forEach(function (row) {
+            let Tytul = "";
+            if(row.sex === "Kobieta") {
+                Tytul = "Pani";
+            }
+            else if (row.sex === "Mężczyzna") {
+                Tytul = "Pan";
+            }
+            let userBirthDate = row.birth_date.split('-');
+            let today = new Date();
+            let birth_date = new Date(userBirthDate[2] + "-" + userBirthDate[1] + "-" + userBirthDate[0]);
+            let diff = today - birth_date;
+            let diffInDays = diff / (1000 * 60 * 60 * 24);
+            let diffInYears = diffInDays/365;
+            csvData += row.name + ", " + row.surname + ", " + row.birth_date + ", " + row.sex + ", " + Tytul + ", " + Math.floor(diffInYears) + "\n";
+            console.log(csvData);
+        });
+       
+        var dzis = new Date();
+        var rok = dzis.getFullYear();
+        var miesiac = dzis.getMonth() + 1;
+        var dzien = dzis.getDate();
+        var godzina = dzis.getHours();
+        var minuty = dzis.getMinutes();
+        var sekundy = dzis.getSeconds();
+
+        var dataIGodzina = `${rok}-${miesiac}-${dzien} ${godzina}-${minuty}-${sekundy}`;
+
+        // Download the CSV file
+        let anchor = document.createElement('a');
+        //anchor.href = 'data:text/csv;meta charset=utf-8,' + encodeURI(csvData);
+        console.log(encodeURIComponent(csvData))
+        console.log(csvData)
+        anchor.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csvData);
+        anchor.target = '_blank';
+        anchor.download = dataIGodzina+'.txt';
+        anchor.click();
+    }
+</script>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>IMIĘ</th>
+			<th>NAZWISKO</th>
+			<th>DATA URODZENIA</th>
+			<th>PŁEĆ</th>
+			<th>DODATKOWY ATRYBUT</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var item in Model.userList)
+		{
+			<tr>
+				<td>@item.id</td>
+				<td>@item.name</td>
+				<td><a href="/Users/Edit?id=@item.id" style="display:block; text-decoration-line: none;">@item.surname</a></td>
+				<td>@item.birth_date</td>
+				<td>@item.sex</td>
+				<td>@item.atribute_name - @item.atribute_value</td>
+				<td>
+					<a class="btn btn-primary btn-sm" href="/Users/Edit?id=@item.id">Edytuj</a>
+					<a class="btn btn-danger btn-sm" href="/Users/Delete?id=@item.id">Usuń</a>			
+				</td>
+			</tr>	
+		}
+	</tbody>
+</table>

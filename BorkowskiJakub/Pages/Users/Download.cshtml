@@ -1,0 +1,42 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    try
+    {
+        String connectionString = "Data Source=KUBALAPTOP\\SQLEXPRESS;Initial Catalog=usersDB;Integrated Security=True";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            String usersTabDataQuery = "SELECT * FROM users";
+            using (SqlCommand command = new SqlCommand(usersTabDataQuery, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+
+                    String Tytuł = "testowy";
+                    using (StreamWriter writer = new StreamWriter("test.txt"))
+                    {
+                        writer.WriteLine("Imię, Nazwisko, Data Urodzenia, Wiek, Płeć, Tytuł");
+                        while (reader.Read())
+                        {
+
+                            //writer.WriteLine("123");
+
+                            //writer.WriteLine("testowy");
+                            writer.WriteLine(reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetDateTime(3).ToString("dd-MM-yyyy") + ", " + "24" + ", " + reader.GetString(4) + ", " + Tytuł);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("BŁĄD");
+        Console.WriteLine("Exception: " + ex.ToString());
+    }
+
+    Response.Redirect("/Users/Index");
+}

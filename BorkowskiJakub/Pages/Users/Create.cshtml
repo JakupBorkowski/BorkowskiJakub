@@ -1,0 +1,89 @@
+﻿@page
+@model BorkowskiJakub.Pages.Users.CreateModel
+@{
+}
+
+<br />
+<h2>Nowy użytkownik</h2>
+
+@if(Model.errorMessage.Length>0)
+{
+	<div class="alert alert-warning alert-dissmissible fade show" role='alert'>
+		<strong>@Model.errorMessage</strong>
+		<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'> </button>
+	</div>
+}
+
+<form method="POST">
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Imię</label>
+		<div class="col-sm-6">
+			<input type ="text" class="form-control" name="name" value="@Model.userInfo.name">
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Nazwisko</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="surname" value="@Model.userInfo.surname">
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Data urodzenia (dd-MM-yyyy)</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="birth_date" value="@Model.userInfo.birth_date">
+		</div>
+	</div>
+
+	
+	
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Płeć</label>
+		<div class="col-sm-6">
+			<select class="form-control" id="sex" name="sex" value="@Model.userInfo.sex">
+				<option value="Kobieta">Kobieta</option>
+				<option value="Mężczyzna">Mężczyzna</option>
+			</select>
+		</div>
+	</div>
+
+	
+
+
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Dodatkowy atrybut</label>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="atribute_name" value="@Model.userInfo.atribute_name" placeholder="Nazwa atrybutu">
+
+		</div>
+		<div class="col-sm-3">
+			<input type="text" class="form-control" name="atribute_value" value="@Model.userInfo.atribute_value" placeholder="Wartość atrybutu">
+		</div>
+	</div>
+
+
+
+	@if (Model.succesMessage.Length > 0)
+	{
+		<div class="row mb-3">
+			<div class="col-sm-9">
+				<div class='alert alert-success alert-dissmissible fade show' role='alert'>
+					<strong>@Model.succesMessage</strong>
+					<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'> </button>
+				</div>
+			</div>
+		</div>
+
+		
+	}
+
+	<div class="row mb-3">
+		<div class="offset-sm-3 col-sm-3 d-grid">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		<div class="col-sm-3 d-grid">
+			<a class="btn btn-outline-primary" href="/" role="button">Cancel</a> 
+		</div>
+	</div>
+</form>
