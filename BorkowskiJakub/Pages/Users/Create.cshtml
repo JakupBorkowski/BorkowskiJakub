@@ -1,4 +1,6 @@
 ﻿@page
+@using System.Web;
+@using Newtonsoft.Json;
 @model BorkowskiJakub.Pages.Users.CreateModel
 @{
 }
@@ -29,24 +31,30 @@
 		</div>
 	</div>
 
+
+	
 	<div class="row mb-3">
-		<label class="col-sm-3 col-form-label">Data urodzenia (dd-MM-yyyy)</label>
+		<label class="col-sm-3 col-form-label">Data urodzenia</label>
 		<div class="col-sm-6">
-			<input type="text" class="form-control" name="birth_date" value="@Model.userInfo.birth_date">
+			<input type="date" class="form-control" id="birth_date" name="birth_date" value="@Model.userInfo.birth_date">
 		</div>
 	</div>
-
 	
 	
 	<div class="row mb-3">
 		<label class="col-sm-3 col-form-label">Płeć</label>
 		<div class="col-sm-6">
-			<select class="form-control" id="sex" name="sex" value="@Model.userInfo.sex">
+			<select class="form-control" id="sex" name="sex">
 				<option value="Kobieta">Kobieta</option>
 				<option value="Mężczyzna">Mężczyzna</option>
 			</select>
 		</div>
 	</div>
+	<script>
+		var tmp = '@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.userInfo)))'
+		tmp = JSON.parse(tmp.replace(/&quot;/g, '"'));
+		document.getElementById("sex").value = tmp.sex;
+	</script>
 
 	
 

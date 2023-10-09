@@ -31,7 +31,7 @@ namespace BorkowskiJakub.Pages.Users
                                 userInfo.id = ""+reader.GetInt32(0);
                                 userInfo.name = reader.GetString(1);
                                 userInfo.surname = reader.GetString(2);
-                                userInfo.birth_date =reader.GetDateTime(3).ToString("dd-MM-yyyy");
+                                userInfo.birth_date =reader.GetDateTime(3).ToString("yyyy-MM-dd");
                                 userInfo.sex = reader.GetString(4);
                                 userInfo.atribute_name = reader.GetString(5);
                                 userInfo.atribute_value = reader.GetString(6);

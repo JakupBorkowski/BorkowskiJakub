@@ -35,9 +35,10 @@
             else if (row.sex === "Mężczyzna") {
                 Tytul = "Pan";
             }
-            let userBirthDate = row.birth_date.split('-');
+            //let userBirthDate = row.birth_date.split('-');
             let today = new Date();
-            let birth_date = new Date(userBirthDate[2] + "-" + userBirthDate[1] + "-" + userBirthDate[0]);
+            //let birth_date = new Date(userBirthDate[2] + "-" + userBirthDate[1] + "-" + userBirthDate[0]);
+            let birth_date = new Date(row.birth_date);
             let diff = today - birth_date;
             let diffInDays = diff / (1000 * 60 * 60 * 24);
             let diffInYears = diffInDays/365;

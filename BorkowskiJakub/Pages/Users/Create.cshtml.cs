@@ -63,13 +63,6 @@ namespace BorkowskiJakub.Pages.Users
                 errorMessage = "Data urodzenia ma nieodpowiedni format!";
                 return;
             }
-			
-			
-			
-			
-			
-
-
 			try
             {
 				String connectionString = "Data Source=KUBALAPTOP\\SQLEXPRESS;Initial Catalog=usersDB;Integrated Security=True";
