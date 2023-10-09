@@ -25,8 +25,7 @@ namespace BorkowskiJakub.Pages.Users
             userInfo.atribute_name = Request.Form["atribute_name"];
             userInfo.atribute_value = Request.Form["atribute_value"];
 
-            DateTime userBirthDate = DateTime.Parse(userInfo.birth_date);
-            DateTime actualDate = DateTime.Now;
+            
 
             if (userInfo.name.Length == 0 || userInfo.surname.Length == 0 || userInfo.birth_date.Length == 0 || userInfo.sex.Length == 0)
             {
@@ -47,15 +46,31 @@ namespace BorkowskiJakub.Pages.Users
             {
                 errorMessage = "Nazwisko jest za d³ugie!";
                 return;
-            }else if(userBirthDate > actualDate)
+            }
+			DateTime temp;
+			if (DateTime.TryParse(userInfo.birth_date, out temp))
+			{
+				DateTime userBirthDate = DateTime.Parse(userInfo.birth_date);
+				DateTime actualDate = DateTime.Now;
+				if (userBirthDate > actualDate)
+				{
+					errorMessage = "Data urodzenia nie mo¿e byæ z przysz³oœci!";
+					return;
+				}
+			}
+            else
             {
-                errorMessage = "Data urodzenia nie mo¿e byæ z przysz³oœci!";
+                errorMessage = "Data urodzenia ma nieodpowiedni format!";
                 return;
             }
+			
+			
+			
+			
+			
 
 
-
-            try
+			try
             {
 				String connectionString = "Data Source=KUBALAPTOP\\SQLEXPRESS;Initial Catalog=usersDB;Integrated Security=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
